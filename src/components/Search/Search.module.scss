@@ -1,0 +1,36 @@
+.search {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 25px;
+
+  &__input {
+    width: 301px;
+    height: 50px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    padding: 17px 0 17px 12px;
+    transition: border-color 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: #ff5555;
+    }
+  }
+
+  &__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    background-color: #ff5555;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}

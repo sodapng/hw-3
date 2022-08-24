@@ -8,5 +8,8 @@ interface Repositories {
     html_url: string
     avatar_url: string
   }
-  url: string
+}
+
+interface ChildrenProp {
+  children: React.ReactNode
 }

@@ -1,25 +1,27 @@
 import { AppContext } from '@/AppContext'
 import { ReactComponent as SearchSvg } from '@components/Search/search.svg'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import styles from '@components/Search/Search.module.scss'
 
 export default function () {
-  const [value, setValue] = useState('')
-  const { setRepo } = useContext(AppContext)
+  const { setIsSending, setPage, setHasMore, owner, setOwner } =
+    useContext(AppContext)
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value)
+    setOwner(event.target.value)
   }
 
   function handleClick() {
-    setRepo(value)
+    setIsSending(true)
+    setPage(1)
+    setHasMore(true)
   }
 
   return (
     <div className={styles.search}>
       <input
         type="text"
-        value={value}
+        value={owner}
         onChange={handleChange}
         placeholder="Введите название организации"
         className={styles.search__input}

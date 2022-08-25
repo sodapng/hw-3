@@ -16,7 +16,7 @@ export default function () {
         const url = `https://api.github.com/repos/${owner}/${repo}`
         const { data } = await axios.get<Repositories>(url, {
           headers: {
-            Authorization: 'token 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',
+            Authorization: 'token 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',
             Accept: 'application/vnd.github+json',
           },
         })

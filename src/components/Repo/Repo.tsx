@@ -23,9 +23,7 @@ export default function ({
       </figure>
       <header className={styles.card__header}>
         <h2 className={styles.card__name}>{name}</h2>
-        <a href="#" className={styles.card__link}>
-          {owner.login}
-        </a>
+        <span className={styles.card__link}>{owner.login}</span>
         <div className={styles.card__footer}>
           <span className={styles.card__stars}>
             <StarSvg />

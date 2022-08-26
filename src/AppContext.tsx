@@ -11,6 +11,8 @@ interface AppContextInterface {
   setOwner: React.Dispatch<React.SetStateAction<string>>
   hasMore: boolean
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>
+  type: string
+  setType: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const AppContext = createContext({} as AppContextInterface)
@@ -21,6 +23,7 @@ export const AppProvider = ({ children }: ChildrenProp) => {
   const [page, setPage] = useState(1)
   const [owner, setOwner] = useState('')
   const [hasMore, setHasMore] = useState(true)
+  const [type, setType] = useState('all')
 
   return (
     <AppContext.Provider
@@ -35,6 +38,8 @@ export const AppProvider = ({ children }: ChildrenProp) => {
         setOwner,
         hasMore,
         setHasMore,
+        type,
+        setType,
       }}
     >
       {children}

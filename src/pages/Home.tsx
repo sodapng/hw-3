@@ -2,6 +2,7 @@ import { AppContext } from '@/AppContext'
 import { useContext } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Loading from '@components/Loading/Loading'
+import Radio from '@/components/Radio/Radio'
 import Repos from '@components/Repos/Repos'
 import Search from '@components/Search/Search'
 import axios from 'axios'
@@ -10,7 +11,7 @@ import useAxiosData from '@/hooks/useAxiosData'
 
 export default function () {
   const { data, setData, isLoading } = useAxiosData()
-  const { page, setPage, perPage, owner, hasMore, setHasMore } =
+  const { page, setPage, perPage, owner, hasMore, setHasMore, type } =
     useContext(AppContext)
 
   const fetchData = async () => {
@@ -20,12 +21,13 @@ export default function () {
       `https://api.github.com/orgs/${owner}/repos`,
       {
         headers: {
-          Authorization: 'token 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',
+          // Authorization: 'token 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',
           Accept: 'application/vnd.github+json',
         },
         params: {
           per_page: perPage,
-          page: page,
+          page,
+          type,
         },
       }
     )
@@ -42,14 +44,15 @@ export default function () {
   return (
     <div className={styles.wrapper}>
       <Search />
+      <Radio />
       {!!data.length && (
         <InfiniteScroll
           dataLength={data.length}
           next={fetchData}
           hasMore={hasMore}
-          loader={<Loading />}
+          loader={<Loading isScroll={true} />}
           endMessage={
-            <p style={{ textAlign: 'center' }}>
+            <p style={{ margin: '10px', textAlign: 'center' }}>
               <b>Yay! You have seen it all</b>
             </p>
           }

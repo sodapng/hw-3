@@ -6,7 +6,7 @@ const useAxiosData = () => {
   const [data, setData] = useState<Repositories[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const { isSending, setIsSending, page, setPage, perPage, owner } =
+  const { isSending, setIsSending, page, setPage, perPage, owner, type } =
     useContext(AppContext)
 
   useEffect(() => {
@@ -20,12 +20,13 @@ const useAxiosData = () => {
           `https://api.github.com/orgs/${owner}/repos`,
           {
             headers: {
-              Authorization: 'token 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',
+              // Authorization: 'token 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',
               Accept: 'application/vnd.github+json',
             },
             params: {
               per_page: perPage,
-              page: page,
+              page,
+              type,
             },
           }
         )

@@ -1,3 +1,8 @@
+import {
+  RepoItemApi,
+  RepoItemModel,
+  normalizeRepoItem,
+} from '@/models/repoItem'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Loading from '@/components/Loading/Loading'
@@ -6,7 +11,7 @@ import styles from '@/App.module.scss'
 
 export default function () {
   const { owner, repo } = useParams()
-  const [data, setData] = useState({} as Repositories)
+  const [data, setData] = useState<RepoItemModel | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -14,14 +19,13 @@ export default function () {
       try {
         setLoading(true)
         const url = `https://api.github.com/repos/${owner}/${repo}`
-        const { data } = await axios.get<Repositories>(url, {
+        const { data } = await axios.get<RepoItemApi>(url, {
           headers: {
-            // Authorization: 'token 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',
             Accept: 'application/vnd.github+json',
           },
         })
 
-        setData(data)
+        setData(normalizeRepoItem(data))
       } catch (error) {
         console.error('Error')
       } finally {

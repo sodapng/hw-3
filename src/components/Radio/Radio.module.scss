@@ -13,7 +13,7 @@
   &__input {
     display: none;
 
-    &:checked + span {
+    &:checked + .radio__btn {
       background-color: #ff5555;
     }
   }

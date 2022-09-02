@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
-import { ReactComponent as StarSvg } from '@components/Repo/star.svg'
-import styles from '@components/Repo/Repo.module.scss'
+import { RepoItemModel } from '@/models/repoItem'
+import { ReactComponent as StarSvg } from '@/components/Repo/star.svg'
+import styles from '@/components/Repo/Repo.module.scss'
 
 export default function ({
   name,
   owner,
-  stargazers_count,
-  updated_at,
-}: Repositories) {
-  const date = new Date(updated_at).toDateString()
+  stargazersCount,
+  updatedAt,
+}: RepoItemModel) {
+  const date = updatedAt.toDateString()
   const day = date.substring(8, 10)
   const month = date.substring(4, 7)
 
@@ -16,7 +17,7 @@ export default function ({
     <Link to={`repos/${owner.login}/${name}`} className={styles.card}>
       <figure className={styles.card__figure}>
         <img
-          src={owner.avatar_url}
+          src={owner.avatarUrl}
           alt="avatar"
           className={styles.card__image}
         />
@@ -27,7 +28,7 @@ export default function ({
         <div className={styles.card__footer}>
           <span className={styles.card__stars}>
             <StarSvg />
-            {stargazers_count}
+            {stargazersCount}
           </span>
           <span className={styles.card__updated}>
             Updated {day} {month}

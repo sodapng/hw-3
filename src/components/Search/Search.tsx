@@ -1,34 +1,25 @@
-import { AppContext } from '@/AppContext'
-import { ReactComponent as SearchSvg } from '@components/Search/search.svg'
-import { useContext } from 'react'
-import styles from '@components/Search/Search.module.scss'
+import { ReactComponent as SearchSvg } from '@/components/Search/search.svg'
+import { appStore } from '@/store/AppStore'
+import { observer } from 'mobx-react-lite'
+import styles from '@/components/Search/Search.module.scss'
 
-export default function () {
-  const { setIsSending, setPage, setHasMore, owner, setOwner } =
-    useContext(AppContext)
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setOwner(event.target.value)
-  }
-
-  function handleClick() {
-    setIsSending(true)
-    setPage(1)
-    setHasMore(true)
-  }
+export default observer(function () {
+  const { query, setQuery, onSearch } = appStore
 
   return (
     <div className={styles.search}>
       <input
+        autoFocus={true}
         type="text"
-        value={owner}
-        onChange={handleChange}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => (e.key === 'Enter' ? onSearch() : undefined)}
         placeholder="Введите название организации"
         className={styles.search__input}
       />
-      <button onClick={handleClick} className={styles.search__button}>
+      <button onClick={onSearch} className={styles.search__button}>
         <SearchSvg />
       </button>
     </div>
   )
-}
+})

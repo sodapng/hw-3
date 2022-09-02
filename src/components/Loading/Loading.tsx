@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import styles from '@components/Loading/Loading.module.scss'
+import styles from '@/components/Loading/Loading.module.scss'
 
 type LoadingProps = {
   isScroll?: boolean

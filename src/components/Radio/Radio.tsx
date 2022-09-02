@@ -1,26 +1,24 @@
-import { AppContext } from '@/AppContext'
-import { Fragment, useContext } from 'react'
-import styles from '@components/Radio/Radio.module.scss'
+import { Fragment } from 'react'
+import { appStore } from '@/store/AppStore'
+import { observer } from 'mobx-react-lite'
+import TypeRepo from '@/models/typeRepo'
+import styles from '@/components/Radio/Radio.module.scss'
 
 const types = [
-  { value: 'all', checked: true },
-  { value: 'public', checked: false },
-  { value: 'forks', checked: false },
-  { value: 'sources', checked: false },
-  { value: 'member', checked: false },
-  { value: 'internal', checked: false },
+  { value: TypeRepo.ALL, checked: true },
+  { value: TypeRepo.PUBLIC, checked: false },
+  { value: TypeRepo.FORKS, checked: false },
+  { value: TypeRepo.SOURCES, checked: false },
+  { value: TypeRepo.MEMBER, checked: false },
+  { value: TypeRepo.INTERNAL, checked: false },
 ]
 
-export default function () {
-  const { setType, type } = useContext(AppContext)
-
-  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value)
-  }
+export default observer(function () {
+  const { type, setType } = appStore
 
   return (
     <div className={styles.radio}>
-      {types.map(({ value, checked }) => {
+      {types.map(({ value }) => {
         return (
           <Fragment key={value}>
             <label className={styles.radio__label}>
@@ -30,7 +28,7 @@ export default function () {
                 name="type"
                 value={value}
                 checked={value === type}
-                onChange={handleClick}
+                onChange={(e) => setType(e.target.value as TypeRepo)}
               />
               <span className={styles.radio__btn}>{value}</span>
             </label>
@@ -39,4 +37,4 @@ export default function () {
       })}
     </div>
   )
-}
+})

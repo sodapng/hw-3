@@ -1,18 +1,19 @@
-import Repo from '@components/Repo/Repo'
-import styles from '@components/Repos/Repos.module.scss'
+import { RepoItemModel } from '@/models/repoItem'
+import Repo from '@/components/Repo/Repo'
+import styles from '@/components/Repos/Repos.module.scss'
 
-export default function ({ data }: { data: Repositories[] }) {
+export default function ({ data }: { data: RepoItemModel[] }) {
   return (
     <div className={styles.card__container}>
-      {data.map(({ id, name, owner, stargazers_count, updated_at }) => {
+      {data.map(({ id, name, owner, stargazersCount, updatedAt }) => {
         return (
           <Repo
             key={id}
             id={id}
             name={name}
             owner={owner}
-            stargazers_count={stargazers_count}
-            updated_at={updated_at}
+            stargazersCount={stargazersCount}
+            updatedAt={updatedAt}
           />
         )
       })}

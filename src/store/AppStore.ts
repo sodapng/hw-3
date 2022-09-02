@@ -11,7 +11,7 @@ import axios, { AxiosRequestHeaders } from 'axios'
 const TOKEN = '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'
 const BASE_URL = 'https://api.github.com'
 const headers: AxiosRequestHeaders = {
-  Authorization: `token ${TOKEN}`,
+  // Authorization: `token ${TOKEN}`,
   Accept: 'application/vnd.github+json',
 }
 

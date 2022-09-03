@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { appStore } from '@/store/AppStore'
 import { observer } from 'mobx-react-lite'
+import { useSearchParams } from 'react-router-dom'
 import TypeRepo from '@/models/typeRepo'
 import styles from '@/components/Radio/Radio.module.scss'
 
@@ -15,6 +16,12 @@ const types = [
 
 export default observer(function () {
   const { type, setType } = appStore
+  const [_, setSearchParams] = useSearchParams()
+
+  function onChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setType(event.target.value as TypeRepo)
+    setSearchParams({ type: event.target.value })
+  }
 
   return (
     <div className={styles.radio}>
@@ -28,7 +35,7 @@ export default observer(function () {
                 name="type"
                 value={value}
                 checked={value === type}
-                onChange={(e) => setType(e.target.value as TypeRepo)}
+                onChange={onChange}
               />
               <span className={styles.radio__btn}>{value}</span>
             </label>

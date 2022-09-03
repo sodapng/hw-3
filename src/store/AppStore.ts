@@ -3,7 +3,7 @@ import {
   RepoItemModel,
   normalizeRepoItem,
 } from '@/models/repoItem'
-import { makeAutoObservable, observable } from 'mobx'
+import { makeAutoObservable, observable, runInAction } from 'mobx'
 import TypeRepo from '@/models/typeRepo'
 import WithBooleanFlag from '@/core/WithBooleanFlag'
 import axios, { AxiosRequestHeaders } from 'axios'
@@ -32,10 +32,6 @@ export default class AppStore {
 
   setData = (value: RepoItemModel[]) => {
     this.data = value
-  }
-
-  incPage = (value: number) => {
-    this.page += value
   }
 
   setQuery = (value: string) => {
@@ -70,12 +66,14 @@ export default class AppStore {
     } catch (error) {
       console.error(error)
     } finally {
-      this.isLoading.setFalse()
+      runInAction(() => {
+        this.isLoading.setFalse()
+      })
     }
   }
 
   fetchData = async () => {
-    this.incPage(1)
+    this.page++
 
     const { data } = await axios.get<RepoItemApi[]>(
       `${BASE_URL}/orgs/${this.query}/repos`,
@@ -89,10 +87,16 @@ export default class AppStore {
       }
     )
 
-    this.data = this.data.concat(data.map((value) => normalizeRepoItem(value)))
+    runInAction(() => {
+      this.data = this.data.concat(
+        data.map((value) => normalizeRepoItem(value))
+      )
+    })
 
     if (data.length < 10) {
-      this.hasMore.setFalse()
+      runInAction(() => {
+        this.hasMore.setFalse()
+      })
     }
   }
 }

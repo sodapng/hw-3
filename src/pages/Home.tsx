@@ -11,19 +11,14 @@ import TypeRepo from '@/models/typeRepo'
 import styles from '@/App.module.scss'
 
 export default observer(function () {
-  const { data, fetchData, hasMore, isLoading, type, setType } = appStore
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { data, fetchData, hasMore, isLoading, setType } = appStore
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const type = searchParams.get('type') as TypeRepo
     if (type) setType(type)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    setSearchParams({ type })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type])
 
   if (isLoading.value) return <Loading />
 

@@ -3,10 +3,10 @@ import {
   RepoItemModel,
   normalizeRepoItem,
 } from '@/models/repoItem'
-import { makeAutoObservable, observable, runInAction } from 'mobx'
+import { makeAutoObservable, observable } from 'mobx'
 import TypeRepo from '@/models/typeRepo'
 import WithBooleanFlag from '@/core/WithBooleanFlag'
-import axios, { AxiosRequestHeaders } from 'axios'
+import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios'
 
 const TOKEN = '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'
 const BASE_URL = 'https://api.github.com'
@@ -25,9 +25,13 @@ export default class AppStore {
   query = ''
 
   constructor() {
-    makeAutoObservable(this, {
-      data: observable.ref,
-    })
+    makeAutoObservable(
+      this,
+      {
+        data: observable.ref,
+      },
+      { autoBind: true }
+    )
   }
 
   setData = (value: RepoItemModel[]) => {
@@ -40,9 +44,13 @@ export default class AppStore {
 
   setType = (value: TypeRepo) => {
     this.type = value
-  }
+  };
 
-  onSearch = async () => {
+  *onSearch(): Generator<
+    Promise<AxiosResponse<RepoItemApi[]>>,
+    void,
+    AxiosResponse<RepoItemApi[]>
+  > {
     if (!this.query) return
 
     this.page = 1
@@ -50,53 +58,50 @@ export default class AppStore {
     this.isLoading.setTrue()
 
     try {
-      const { data } = await axios.get<RepoItemApi[]>(
-        `${BASE_URL}/orgs/${this.query}/repos`,
-        {
-          headers,
-          params: {
-            per_page: this.perPage,
-            page: this.page,
-            type: this.type,
-          },
-        }
-      )
-
-      this.data = data.map((value) => normalizeRepoItem(value))
-    } catch (error) {
-      console.error(error)
-    } finally {
-      runInAction(() => {
-        this.isLoading.setFalse()
-      })
-    }
-  }
-
-  fetchData = async () => {
-    this.page++
-
-    const { data } = await axios.get<RepoItemApi[]>(
-      `${BASE_URL}/orgs/${this.query}/repos`,
-      {
+      const { data } = yield axios.get(`${BASE_URL}/orgs/${this.query}/repos`, {
         headers,
         params: {
           per_page: this.perPage,
           page: this.page,
           type: this.type,
         },
-      }
-    )
-
-    runInAction(() => {
-      this.data = this.data.concat(
-        data.map((value) => normalizeRepoItem(value))
-      )
-    })
-
-    if (data.length < 10) {
-      runInAction(() => {
-        this.hasMore.setFalse()
       })
+
+      this.data = data.map((value) => normalizeRepoItem(value))
+    } catch (error) {
+      console.error(error)
+      this.data = []
+    } finally {
+      this.isLoading.setFalse()
+    }
+  }
+
+  *fetchData(): Generator<
+    Promise<AxiosResponse<RepoItemApi[]>>,
+    void,
+    AxiosResponse<RepoItemApi[]>
+  > {
+    this.page++
+
+    try {
+      const { data } = yield axios.get(`${BASE_URL}/orgs/${this.query}/repos`, {
+        headers,
+        params: {
+          per_page: this.perPage,
+          page: this.page,
+          type: this.type,
+        },
+      })
+
+      this.data = this.data.concat(
+        data.map((value: RepoItemApi) => normalizeRepoItem(value))
+      )
+
+      if (data.length < 10) {
+        this.hasMore.setFalse()
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 }

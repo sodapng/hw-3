@@ -8,7 +8,7 @@ import TypeRepo from '@/models/typeRepo'
 import WithBooleanFlag from '@/core/WithBooleanFlag'
 import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios'
 
-const TOKEN = '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'
+// const TOKEN = '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'
 const BASE_URL = 'https://api.github.com'
 const headers: AxiosRequestHeaders = {
   // Authorization: `token ${TOKEN}`,

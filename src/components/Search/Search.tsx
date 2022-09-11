@@ -1,4 +1,4 @@
-import { ReactComponent as SearchSvg } from '@/components/Search/search.svg'
+import SearchSvg from '@/components/Search/search.svg'
 import { appStore } from '@/store/AppStore'
 import { observer } from 'mobx-react-lite'
 import styles from '@/components/Search/Search.module.scss'

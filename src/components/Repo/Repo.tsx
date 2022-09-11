@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { RepoItemModel } from '@/models/repoItem'
-import { ReactComponent as StarSvg } from '@/components/Repo/star.svg'
+import StarSvg from '@/components/Repo/star.svg'
 import styles from '@/components/Repo/Repo.module.scss'
 
 export default function ({

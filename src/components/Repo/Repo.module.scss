@@ -1,0 +1,64 @@
+.card {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 10px;
+  align-items: center;
+  width: 357px;
+  height: 104px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding-left: 10px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #7e7e7e;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &__header {
+    > :not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+
+    &:hover {
+      color: #208fbf;
+    }
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000;
+  }
+
+  &__image {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+  }
+
+  &__footer,
+  &__stars {
+    display: flex;
+    align-items: center;
+  }
+
+  &__footer {
+    gap: 20px;
+  }
+
+  &__stars {
+    gap: 5px;
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 6px rgba(182, 182, 182, 0.25);
+    cursor: pointer;
+  }
+}

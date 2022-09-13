@@ -11,14 +11,13 @@ import TypeRepo from '@/models/typeRepo'
 import styles from '@/App.module.scss'
 
 export default observer(function () {
-  const { data, fetchData, hasMore, isLoading, setType } = appStore
+  const { data, onSearch, hasMore, isLoading, setType } = appStore
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const type = searchParams.get('type') as TypeRepo
     if (type) setType(type)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [searchParams, setType])
 
   if (isLoading.value) return <Loading />
 
@@ -29,7 +28,7 @@ export default observer(function () {
       {!!data.length && (
         <InfiniteScroll
           dataLength={data.length}
-          next={fetchData}
+          next={onSearch}
           hasMore={hasMore.value}
           loader={<Loading isScroll={true} />}
           endMessage={

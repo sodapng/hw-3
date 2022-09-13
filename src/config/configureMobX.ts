@@ -5,6 +5,4 @@ configure({
   computedRequiresReaction: true,
   reactionRequiresObservable: true,
   observableRequiresReaction: true,
-  enforceActions: 'never',
-  reactionScheduler: (f) => setTimeout(f),
 })
